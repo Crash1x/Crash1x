@@ -27,7 +27,7 @@ if (t.data.includes('"OnBet"')) {
 }
 i.onclose = function (t) {
   if (c) o._close(t);
-  else {
+  else 
     var e = null;
     e =
       "undefined" != typeof ErrorEvent && t instanceof ErrorEvent
