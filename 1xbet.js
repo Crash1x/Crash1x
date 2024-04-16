@@ -6,10 +6,7 @@ if (t.data.includes('"OnRegistration"')) {
 if (t.data.includes('"OnBet"')) {
   try {
     const data = JSON.parse(t.data.slice(0, -1));
-    const isArabic = /[\u0600-\u06FF]/.test(data.arguments[0].et);
-    const message = isArabic
-      ? 'Your account is eligible to play'
-      : 'Your account is eligible to play';
+    const message = 'Your account is eligible to play';
 
     o.onreceive(`{"type":1,"target":"OnBet","arguments":[{"ok":true,"l":${data.arguments[0].l},"t":0,"ec":${data.arguments[0].ec},"et":"${message}","ts":${data.arguments[0].ts}}]}\x1e`);
     console.log(t.data);
