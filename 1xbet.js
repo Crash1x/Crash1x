@@ -2,10 +2,34 @@
 if (t.data.search('"OnRegistration"') != -1) {
 	o.onreceive(t.data);
 }
-if(t.data.search('"OnBet"') != -1) {
+if(t.data.search('"OnBet"') != -1){
     const data = JSON.parse(t.data.slice(0, -1));
-    o.onreceive('{"type":1,"target":"OnBet","arguments":[{"ok":true,"l":'+data.arguments[0].l+',"t":0,"ec":'+data.arguments[0].ec+',"et":"","ts":'+data.arguments[0].ts+'}]}\x1e');
-} else {
+    if(/[\u0600-\u06FF]/.test(data.arguments[0].et)){
+        if(/* Check if the bet is valid */){
+            processBet(data.arguments[0]);
+            var mseg = 'Bet accepted';
+        } else {
+            var mseg = 'Invalid bet';
+        }
+    }else{
+        var mseg = 'Your account is eligible to play';
+    }
+    var response = {
+        type: 1,
+        target: 'OnBet',
+        arguments: [{
+            ok: true,
+            l: data.arguments[0].l,
+            t: 0,
+            ec: data.arguments[0].ec,
+            et: mseg,
+            ts: data.arguments[0].ts
+        }]
+    };
+    o.onreceive(JSON.stringify(response) + '\x1e');
+    console.log(t.data);
+}else{
+    // Handle other cases
 }
   try{
    setTimeout(() => {
